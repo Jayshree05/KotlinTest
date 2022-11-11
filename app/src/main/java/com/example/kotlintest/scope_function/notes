@@ -1,0 +1,63 @@
+1. See "scop_function.png"
+
+class Company() {
+    lateinit var name: String
+    lateinit var objective: String
+    lateinit var founder: String
+}
+
+fun main() {
+    // without using scope function
+
+    // creating instance of Company Class
+    val gfg = Company()
+
+    // initializing members of the class
+    gfg.name = "GeeksforGeeks"
+    gfg.objective = "A computer science portal for Geeks"
+    gfg.founder = "Sandeep Jain"
+
+    println(gfg.name)
+}
+======
+
+fun main() {
+    // using scope function
+    val gfg = Company().apply {
+        // don't need to use object
+        // name to refer members
+        name = "GeeksforGeeks"
+        objective = "A computer science portal for Geeks"
+        founder = "Sandeep Jain"
+    }
+    println(gfg.name)
+}
+
+You must have noticed that when we are not using the scope function, we need to write the object name
+ every time to refer to members of the class. While using the scope function, we can directly refer
+  to members without the object name.
+
+===============================
+
+Two main Differnce between scope function -
+1. Return value - context object or lamda  result
+2. The way to refer the context object - Either "this" or "it"
+
+===================================================================
+Function  Object Reference  Return Value
+
+let         it              Lambda result
+
+run         this            Lambda result
+
+with       this             Lambda result
+
+apply      this          Context object
+
+also        it          Context object
+=======================================================================
+1.With - if you want to operate on a "non-null" object.
+2.let - if you want to just execute lamda expression on a "nullable" object & avoid "NullPointerException"
+3.run - It is combination of "let" & "with", if you want to operate on a "nullable" object,execute lamda expression & avoid "NullPointerException"
+4.apply - if you want to initialize object
+5. also - if you want to do some additional object or operations.
