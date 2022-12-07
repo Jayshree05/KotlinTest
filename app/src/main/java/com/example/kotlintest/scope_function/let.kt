@@ -15,7 +15,7 @@ fun main(){
 
     // let function use along with Safe call operator "?." , without safe call we got exception
     name?.let {
-        println(it!!.reversed())
+//        println(it!!.reversed())
     }
 
 

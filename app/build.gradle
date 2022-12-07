@@ -1,9 +1,17 @@
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
+    kapt {
+        generateStubs = true
+        correctErrorTypes true
+    }
+
     namespace 'com.example.kotlintest'
     compileSdk 32
 
@@ -29,6 +37,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+//        freeCompilerArgs = ['-Xjvm-default=enable'] //enable or compatibility
+    }
+    dataBinding{
+        enabled = true
     }
 }
 
@@ -38,7 +50,38 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.databinding:databinding-runtime:7.3.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+    // Lifecycle extension
+//    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+
+    def version_nav = "2.5.3"
+    implementation "androidx.navigation:navigation-fragment-ktx:$version_nav"
+    implementation "androidx.navigation:navigation-ui-ktx:$version_nav"
+
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
+
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
+
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+
+    implementation 'com.google.dagger:dagger:2.40.5'
+    kapt 'com.google.dagger:dagger-android-processor:2.23.2'
+    kapt 'com.google.dagger:dagger-compiler:2.23.2'
+//    'com.google.dagger:dagger-compiler:2.23.2'
+
+
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
+
+
 }

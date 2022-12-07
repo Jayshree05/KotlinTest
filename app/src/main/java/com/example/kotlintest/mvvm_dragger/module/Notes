@@ -1,0 +1,19 @@
+
+
+
+Main problem is that in project we have multiple activities and if we have multiple activity then we have viewmodel &
+each viewmodel have its factory so its not a valid code structure.
+
+ & for resolve this issue we have to finalize one viewmodel in whole project
+
+ -----
+ so we use multi bindinding ---> we create ViewModelModule
+
+ - In this we have 2 object with same refrence(ViewModel) then in this manner dagger has confuse which object I create
+ so resolve this problem we have to add either qualifier or map, stringRef
+
+ ApplicationComponent
+ ViewModelmodule
+
+
+ @StringKey("mainViewModel")

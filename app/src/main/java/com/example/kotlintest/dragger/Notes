@@ -1,0 +1,114 @@
+- Dragger is fully static & compile time dependency injection framwork.
+- compile time checking is performed if dragger can create the required object
+- Annotation based
+
+1. Dependency injection is basically providing the objects that
+an object needs to class, & provided by the system
+
+
+dragger have 3 concept
+-consumer - who can consume the objects (@inject)
+-producer - who can produce the objects  (@module, @bind, @provides)
+-connector - who can join consumer & producer (@component)
+
+- check "Carclass.java"
+
+--- disadvantage ---
+ Unit testing
+ single resposibility
+ life time of object
+ extensible
+====================================
+https://www.youtube.com/watch?v=cg0yCHW2Keg&list=PLRKyZvuMYSIPwjYw1bt_7u7nEwe6vATQd&index=2
+
+
+MainActivity:-
+
+        val userRepository = UserRepository()
+        val emailService = EmailService()
+
+        val userRegistrationService = UserRegistrationService(userRepository, emailService)
+        userRegistrationService.registerUser("john@gmail.com", "12345")
+
+        suppose we need to register user in 15 screen so we need to create "userrespoitor & emailservice" object at 15 times
+        so we need to resolve that proble we use "DAGGER"
+
+        this problem is callled manual dependency injection
+======================================
+
+// component -> Dagger return the object which i required
+// inject -> we tell the dagger to crete the object of that class
+
+
+2 type of @inject
+filed or construstor
+
+- in Email service class - dagger dont know which service dagger inject in userRegistrationservice class
+so we need to create "@module" for that, & "@provide" the annotation for provide the object of that class
+
+- in NotificationServiceModule class NotificationService binds with EmailService object & dagger knows how to create
+object of emailservice bcoz we add @inject in emailservice construstor
+
+if dagger own create object that time we use - @bind
+bind always use with abstract fun & class always abstract
+
+if dagger dont create object by own then we use @provide
+
+UserRepositoryModule :- here we use @bind
+======
+
+in NotificationServiceModule we have 2 service email & msg so its confusion to dagger which service object dagger should create in "UserRegistrationService", so resolved this problem
+we use @named annotation
+
+In "NotificationServiceModule"
+  @Named("email")
+    @Provides
+    fun getEmailService(emailService: EmailService) : NotificationService{
+        return EmailService()
+    }
+
+In "UserRegistrationService"
+class UserRegistrationService @Inject constructor(private val userRepository: UserRepository,
+                                                         @Named("email") private val notificationService: NotificationService) {
+======================
+
+In this named annotation manual string are pass so chances of name mistaske in string value like "email" & "eamil"
+is higher or we can say typo so resolve this problem we use "Qualifier"
+
+messsage Qualifier
+NotificationServiceModule
+UpdateRegistrationService
+==========================
+
+pass the dynamic value from module:-
+Emailservice
+NotificationServiceModulle
+MainActivity
+
+  // when we pass value from dynamic in notificationServiceModule
+        val component = DaggerUserRegistrationComponent.builder()
+            .notificationServiceModule(NotificationServiceModule(3))
+            .build()
+        component.inject(this)
+        userRegistrationService.registerUser("john@gmail.com", "12345")
+=================================================
+factory is used for build object of component -
+
+in this above code if we forgot to make object of "notificationServiceModule" then that time we face run time error
+missing notificationServiceModule object to remove this problem we can use "factory"
+
+UserRegistrationComponent
+NotificationServiceModulle
+MainActivity
+
+   // when we pass value from dynamic from factory methode
+  val component = DaggerUserRegistrationComponent.factory().create(5)
+            component.inject(this)
+            userRegistrationService.registerUser("john@gmail.com", "12345")
+====================================
+
+
+
+
+
+
